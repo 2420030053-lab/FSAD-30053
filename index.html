@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Manager</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+        }
+
+        header {
+            background: #007bff;
+            padding: 15px;
+            text-align: center;
+            color: white;
+        }
+
+        main {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px;
+            flex-wrap: wrap;
+        }
+
+        .box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            width: 350px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 7px;
+            margin-bottom: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 7px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #005fcc;
+        }
+
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            background: #e9e9e9;
+            margin: 5px 0;
+            padding: 7px;
+            border-radius: 4px;
+        }
+
+        footer {
+            text-align: center;
+            background: #007bff;
+            padding: 10px;
+            color: white;
+        }
+    </style>
+
+</head>
+<body>
+
+    <header>
+        <h1>Assignment & Class Manager</h1>
+    </header>
+
+    <main>
+        <!-- CLASS BOX -->
+        <div class="box">
+            <h2>Add Class</h2>
+            <input type="text" id="className" placeholder="Enter class name">
+            <button onclick="addClass()">Add Class</button>
+            <ul id="classList"></ul>
+        </div>
+
+        <!-- ASSIGNMENT BOX -->
+        <div class="box">
+            <h2>Add Assignment</h2>
+            <input type="text" id="assignmentTitle" placeholder="Assignment title">
+            <input type="date" id="assignmentDate">
+            <button onclick="addAssignment()">Add Assignment</button>
+            <ul id="assignmentList"></ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 Assignment Manager</p>
+    </footer>
+
+    <script>
+        function loadData() {
+            document.getElementById("classList").innerHTML = 
+                JSON.parse(localStorage.getItem("classes") || "[]")
+                .map(c => `<li>${c}</li>`).join("");
+
+            document.getElementById("assignmentList").innerHTML =
+                JSON.parse(localStorage.getItem("assignments") || "[]")
+                .map(a => `<li>${a.title} - ${a.date}</li>`).join("");
+        }
+
+        function addClass() {
+            let className = document.getElementById("className").value;
+            if (!className.trim()) return;
+
+            let classes = JSON.parse(localStorage.getItem("classes") || "[]");
+            classes.push(className);
+            localStorage.setItem("classes", JSON.stringify(classes));
+            document.getElementById("className").value = "";
+            loadData();
+        }
+
+        function addAssignment() {
+            let title = document.getElementById("assignmentTitle").value;
+            let date = document.getElementById("assignmentDate").value;
+            if (!title.trim() || !date) return;
+
+            let assignments = JSON.parse(localStorage.getItem("assignments") || "[]");
+            assignments.push({ title, date });
+            localStorage.setItem("assignments", JSON.stringify(assignments));
+            document.getElementById("assignmentTitle").value = "";
+            document.getElementById("assignmentDate").value = "";
+            loadData();
+        }
+
+        window.onload = loadData;
+    </script>
+
+</body>
+</html>
