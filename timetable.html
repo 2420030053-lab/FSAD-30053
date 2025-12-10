@@ -1,234 +1,114 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Academic Timetable</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --purple:#8e44ad;        /* header purple */
-      --purple-dark:#6f2f86;
-      --bg:#fafafa;
-      --cell-border:#e6e6e6;
-      --first-col-bg:#fff;
-    }
-    *{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;}
-    body{margin:20px;background:var(--bg);color:#222;}
-    .wrap{max-width:1200px;margin:0 auto;}
-    h1{font-size:20px;margin:8px 0 14px;text-align:center;}
-    .table-container{
-      border:1px solid var(--cell-border);
-      background: #fff;
-      overflow:auto;            /* allow horizontal scroll */
-      box-shadow: 0 4px 14px rgba(0,0,0,0.03);
-      border-radius:8px;
-    }
-
-    table.timetable{
-      border-collapse:collapse;
-      width:100%;
-      min-width:1400px;        /* keep many columns visible, allow scroll otherwise */
-    }
-
-    /* header row */
-    thead th{
-      position:sticky;
-      top:0;
-      background:linear-gradient(180deg, var(--purple), var(--purple-dark));
-      color:#fff;
-      padding:10px 8px;
-      border-bottom:2px solid rgba(255,255,255,0.08);
-      text-align:center;
-      font-weight:600;
-      white-space:nowrap;
-      z-index:3;
-      font-size:13px;
-    }
-
-    thead th.hour{
-      min-width:64px;
-      padding:10px 6px;
-    }
-
-    /* first column (days) sticky */
-    tbody td:first-child, thead th:first-child{
-      position:sticky;
-      left:0;
-      z-index:4;
-      background:var(--first-col-bg);
-      border-right:1px solid var(--cell-border);
-      font-weight:600;
-    }
-
-    tbody tr:nth-child(odd){background:#fff;}
-    tbody tr:nth-child(even){background:#fbfbfb;}
-
-    tbody td{
-      padding:8px 6px;
-      border-bottom:1px solid var(--cell-border);
-      border-right:1px solid var(--cell-border);
-      text-align:left;
-      font-size:12px;
-      vertical-align:middle;
-      min-width:64px;
-      white-space:nowrap;
-    }
-
-    /* small "time slot" cells content */
-    .slot{
-      display:inline-block;
-      padding:4px 6px;
-      border-radius:6px;
-      background:rgba(142,68,173,0.07);
-      color:var(--purple-dark);
-      font-size:11px;
-      font-weight:600;
-    }
-
-    /* highlight when a slot exists */
-    .slot.full{
-      background:linear-gradient(180deg, rgba(142,68,173,0.12), rgba(142,68,173,0.06));
-      border-left:3px solid var(--purple);
-      padding-left:8px;
-    }
-
-    /* small grey tiny text for room */
-    .room{display:block;font-size:10px;color:#6b6b6b;margin-top:3px;font-weight:500;}
-
-    /* hover tooltip using title attribute default - but add pointer */
-    td:hover{background:rgba(142,68,173,0.02);cursor:default;}
-
-    /* small responsive tweaks */
-    @media (max-width:980px){
-      thead th.hour{min-width:56px;padding:8px 4px;}
-      tbody td{padding:6px 4px;font-size:11px;}
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Timetable</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    font-size: 13px;
+    vertical-align: top;
+  }
+  th {
+    text-align: center;
+    font-weight: bold;
+  }
+  td:first-child, th:first-child {
+    width: 70px;
+    font-weight: bold;
+  }
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Academic Timetable</h1>
-    <div class="table-container" role="region" aria-label="Academic Timetable">
-      <table class="timetable" aria-describedby="timetable-desc">
-        <caption id="timetable-desc" style="caption-side:top;text-align:left;padding:8px 12px;color:#666;font-size:13px;">
-          Showing 1-6 of 6 items.
-        </caption>
 
-        <thead>
-          <tr>
-            <th>Day / Hour</th>
-            <!-- Hours 1..24 -->
-            <th class="hour">1</th><th class="hour">2</th><th class="hour">3</th><th class="hour">4</th>
-            <th class="hour">5</th><th class="hour">6</th><th class="hour">7</th><th class="hour">8</th>
-            <th class="hour">9</th><th class="hour">10</th><th class="hour">11</th><th class="hour">12</th>
-            <th class="hour">13</th><th class="hour">14</th><th class="hour">15</th><th class="hour">16</th>
-            <th class="hour">17</th><th class="hour">18</th><th class="hour">19</th><th class="hour">20</th>
-            <th class="hour">21</th><th class="hour">22</th><th class="hour">23</th><th class="hour">24</th>
-          </tr>
-        </thead>
+<table>
+  <tr>
+    <th>Day</th>
+    <th>1</th><th>2</th><th>3</th><th>4</th>
+    <th>5</th><th>6</th><th>7</th><th>8</th>
+  </tr>
 
-        <tbody>
-          <!-- Monday -->
-          <tr>
-            <td style="width:160px;">Mon</td>
-            <td title="24CS3207 - P - S-5 - RoomNo-HC-15D">
-              <span class="slot full">24CS3207-P - S-5</span>
-              <span class="room">RoomNo-HC-15D</span>
-            </td>
-            <td title="24CS3207 - P - S-5 - RoomNo-HC-15D">
-              <span class="slot full">24CS3207-P - S-5</span>
-              <span class="room">RoomNo-HC-15D</span>
-            </td>
-            <td title="24CS2255F - L - S-5 - RoomNo-H-003">
-              <span class="slot full">24CS2255F-L - S-5</span>
-              <span class="room">RoomNo-H-003</span>
-            </td>
-            <td title="24CS2255F - L - S-5 - RoomNo-H-003">
-              <span class="slot full">24CS2255F-L - S-5</span>
-              <span class="room">RoomNo-H-003</span>
-            </td>
-            <td></td>
-            <td title="24SDCS02-S - S-7 - RoomNo-H101">
-              <span class="slot">24SDCS02-S - S-7</span>
-              <span class="room">RoomNo-H101</span>
-            </td>
-            <td title="24SDCS02-S - S-7 - RoomNo-H101">
-              <span class="slot">24SDCS02-S - S-7</span>
-              <span class="room">RoomNo-H101</span>
-            </td>
+  <tr>
+    <td>Mon</td>
+    <td>24CS3207-P-S-5<br>RoomNo-HC-15D</td>
+    <td>24CS3207-P-S-5<br>RoomNo-HC-15D</td>
+    <td>24CS2255F-L-S-5<br>RoomNo-H-003</td>
+    <td>24CS2255F-L-S-5<br>RoomNo-H-003</td>
+    <td>-</td>
+    <td>-</td>
+    <td>24SDCS02-S-S-7<br>RoomNo-H101</td>
+    <td>24SDCS02-S-S-7<br>RoomNo-H101</td>
+  </tr>
 
-            <!-- rest empty -->
-            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-            <td></td><td></td><td></td><td></td><td></td><td></td>
-          </tr>
+  <tr>
+    <td>Tue</td>
+    <td>24MT2012-T-S-7<br>RoomNo-H103</td>
+    <td>24MT2012-T-S-7<br>RoomNo-H103</td>
+    <td>24CS3207-L-S-5<br>RoomNo-H305</td>
+    <td>24CS3207-L-S-5<br>RoomNo-H305</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
 
-          <!-- Tuesday -->
-          <tr>
-            <td>Tue</td>
-            <td title="24MT2012 - T - S-7 - RoomNo-H103"><span class="slot">24MT2012-T - S-7</span><span class="room">RoomNo-H103</span></td>
-            <td title="24MT2012 - T - S-7 - RoomNo-H103"><span class="slot">24MT2012-T - S-7</span><span class="room">RoomNo-H103</span></td>
-            <td title="24CS3207 - L - S-5 - RoomNo-H-305"><span class="slot">24CS3207-L - S-5</span><span class="room">RoomNo-H-305</span></td>
-            <td title="24CS3207 - L - S-5 - RoomNo-H-305"><span class="slot">24CS3207-L - S-5</span><span class="room">RoomNo-H-305</span></td>
-            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-          </tr>
+  <tr>
+    <td>Wed</td>
+    <td>24SDCS02-S-S-7<br>RoomNo-H101</td>
+    <td>24SDCS02-S-S-7<br>RoomNo-H101</td>
+    <td>24CS2204-L-S-7<br>RoomNo-H103</td>
+    <td>24CS2204-L-S-7<br>RoomNo-H103</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
 
-          <!-- Wednesday -->
-          <tr>
-            <td>Wed</td>
-            <td title="24SDCS02 - S-7 - RoomNo-H101"><span class="slot">24SDCS02-S - S-7</span><span class="room">RoomNo-H101</span></td>
-            <td title="24SDCS02 - S-7 - RoomNo-H101"><span class="slot">24SDCS02-S - S-7</span><span class="room">RoomNo-H101</span></td>
-            <td title="24CS2204 - L - S-7 - RoomNo-H103"><span class="slot">24CS2204-L - S-7</span><span class="room">RoomNo-H103</span></td>
-            <td title="24CS2204 - L - S-7 - RoomNo-H103"><span class="slot">24CS2204-L - S-7</span><span class="room">RoomNo-H103</span></td>
-            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-          </tr>
+  <tr>
+    <td>Thu</td>
+    <td>24MT2012-L-S-7<br>RoomNo-H103</td>
+    <td>24MT2012-L-S-7<br>RoomNo-H103</td>
+    <td>24CS3206-L-S-5<br>RoomNo-H101</td>
+    <td>24CS3206-L-S-5<br>RoomNo-H101</td>
+    <td>23UC0014-S-S-5<br>RoomNo-HC-15A</td>
+    <td>-</td>
+    <td>24CS2204-S-S-7<br>RoomNo-H003</td>
+    <td>24CS2204-S-S-7<br>RoomNo-H003</td>
+  </tr>
 
-          <!-- Thursday -->
-          <tr>
-            <td>Thu</td>
-            <td title="24MT2012 - L - S-7 - RoomNo-H103"><span class="slot">24MT2012-L - S-7</span><span class="room">RoomNo-H103</span></td>
-            <td title="24MT2012 - L - S-7 - RoomNo-H103"><span class="slot">24MT2012-L - S-7</span><span class="room">RoomNo-H103</span></td>
-            <td title="24CS3206 - L - S-5 - RoomNo-H101"><span class="slot">24CS3206-L - S-5</span><span class="room">RoomNo-H101</span></td>
-            <td title="24CS3206 - L - S-5 - RoomNo-H101"><span class="slot">24CS3206-L - S-5</span><span class="room">RoomNo-H101</span></td>
-            <td title="23UC0014 - S - S-5 - RoomNo-HC-15A"><span class="slot">23UC0014-S - S-5</span><span class="room">RoomNo-HC-15A</span></td>
-            <td></td>
-            <td title="24CS2204 - S-7 - RoomNo-H-003"><span class="slot">24CS2204-S - S-7</span><span class="room">RoomNo-H-003</span></td>
-            <td title="24CS2204 - S-7 - RoomNo-H-003"><span class="slot">24CS2204-S - S-7</span><span class="room">RoomNo-H-003</span></td>
-            <!-- rest empty -->
-            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-          </tr>
+  <tr>
+    <td>Fri</td>
+    <td>24CS2255F-P-S-5<br>RoomNo-H103</td>
+    <td>24CS2255F-P-S-5<br>RoomNo-H103</td>
+    <td>24SDCS02-L-S-7<br>RoomNo-H404</td>
+    <td>24CS3206-T-S-5<br>RoomNo-H102</td>
+    <td>24CS3206-T-S-5<br>RoomNo-H102</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
 
-          <!-- Friday -->
-          <tr>
-            <td>Fri</td>
-            <td title="24CS2255F - P - S-5 - RoomNo-H103"><span class="slot">24CS2255F-P - S-5</span><span class="room">RoomNo-H103</span></td>
-            <td title="24CS2255F - P - S-5 - RoomNo-H103"><span class="slot">24CS2255F-P - S-5</span><span class="room">RoomNo-H103</span></td>
-            <td title="24SDCS02 - L - S-7 - RoomNo-H404"><span class="slot">24SDCS02-L - S-7</span><span class="room">RoomNo-H404</span></td>
-            <td title="24CS3206 - T - S-5 - RoomNo-H102"><span class="slot">24CS3206-T - S-5</span><span class="room">RoomNo-H102</span></td>
-            <td title="24CS3206 - T - S-5 - RoomNo-H102"><span class="slot">24CS3206-T - S-5</span><span class="room">RoomNo-H102</span></td>
-            <td></td><td></td><td></td><td></td><td></td><td></td>
-            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-          </tr>
+  <tr>
+    <td>Sat</td>
+    <td>24CS2204-P-S-7<br>RoomNo-H006</td>
+    <td>24CS2204-P-S-7<br>RoomNo-H006</td>
+    <td>24CS2204-L-S-7<br>RoomNo-H103</td>
+    <td>-</td>
+    <td>24CS3207-L-S-5<br>RoomNo-H404</td>
+    <td>-</td>
+    <td>23UC0014-S-S-5<br>RoomNo-H101</td>
+    <td>-</td>
+  </tr>
 
-          <!-- Saturday -->
-          <tr>
-            <td>Sat</td>
-            <td title="24CS2204 - P - S-7 - RoomNo-H006"><span class="slot">24CS2204-P - S-7</span><span class="room">RoomNo-H006</span></td>
-            <td title="24CS2204 - P - S-7 - RoomNo-H006"><span class="slot">24CS2204-P - S-7</span><span class="room">RoomNo-H006</span></td>
-            <td title="24CS2204 - L - S-7 - RoomNo-H103"><span class="slot">24CS2204-L - S-7</span><span class="room">RoomNo-H103</span></td>
-            <td></td>
-            <td title="24CS3207 - L - S-5 - RoomNo-H-404"><span class="slot">24CS3207-L - S-5</span><span class="room">RoomNo-H-404</span></td>
-            <td title="23UC0014 - S - S-5 - RoomNo-H101"><span class="slot">23UC0014-S - S-5</span><span class="room">RoomNo-H101</span></td>
-            <!-- rest empty -->
-            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-          </tr>
+</table>
 
-        </tbody>
-      </table>
-    </div>
-  </div>
 </body>
 </html>
